@@ -1,0 +1,196 @@
+<div id="app">
+    <div id="channels" class="fillHeight"></div>
+    <div id="contacts" class="fillHeight">
+        <div id="contactsSearch"></div>
+        <hr>
+        <a href="/app"><div class="contactsButton"><img class="icon" src="/images/icons/friends.png" alt="">Friends</div></a>
+        <span>DIRECT MESSAGES</span>
+        <div id="direct-messages">
+            <div class="card-direct">
+                <img src='/images/user.jpg'>
+                <p>Nome</p>
+            </div>
+        </div>
+    </div>
+    <div id="cardChat" class="fillHeight">
+        <div id="nav">
+            <div id="navTittleChat"><img id="img-perfil" src="/images/user.jpg" alt=""></div>
+
+        </div>
+        <hr>
+        <div id="communicate">
+            <div id="content-chat">
+                <div id="messages">
+                </div>
+                <form id="send-message" action="">
+                    <div id="input">
+                        <input id="text" placeholder="Write something..." autocomplete="off" />
+                        <button id="send-button"><img class="icon" src="/images/icons/send.png" alt=""></button>
+                    </div>
+                    
+                </form>
+            </div>
+            <div id="information-chat">
+                <div id="information-perfil">
+                    <div id="information-background">
+
+                    </div>
+                    <div id="information-photo">
+                        <img src="/images/user.jpg" alt="">
+                    </div>
+                    <div id="infos">
+                        
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
+<script>
+    var loadMoreMessages = true;
+    var messagesLoaded = 0;
+    const url = "http://localhost:8081";
+    const friendId = "{{idFriend}}";
+    const socket = io(url, {extraHeaders: {"Authorization": getCookie("token")}});//REMEMBER CHANGE FOR DEPLOY
+    const monthNames = ["jan.", "feb.", "mar.", "Apr.", "may.", "jun.",
+    "jul.", "aug.", "sep.", "oct.", "nov.", "dec."
+    ];
+    function getCookie(name) {
+            let cookie = {};
+            
+            document.cookie.split(';').forEach(function(el) {
+                let [k,v] = el.split('=');
+                cookie[k.trim()] = v;
+            })
+            
+            return cookie[name];
+        
+        }
+   
+    $.ajax({
+        method: "POST",
+        url: "http://localhost:8081/user/getbyid",//REMEMBER CHANGE FOR DEPLOY
+        headers: {
+            "Authorization": getCookie("token")
+        },
+        data: {
+            "friendId": friendId
+        }
+    }).then((result)=>{ 
+        var date = new Date(result.user.registrationDate);
+        var day = date.getDay();
+        var month =date.getMonth();
+        var year = date.getYear();
+        $("#navTittleChat").append(result.user.name);
+        $('#infos').append("<h3>"+result.user.name+"</h3><p>"+result.user.name+"</p><hr><h5 id='information-date'>Member since</h5><p>"+day+" of "+monthNames[month]+" of "+(year+1900)+"</p>");
+          
+    }).catch((err)=>{
+        console.log("erro: "+err.responseJSON);
+    });
+
+    $.ajax({
+        method: "POST",
+        url: "http://localhost:8081/message/messages",//REMEMBER CHANGE FOR DEPLOY
+        headers: {
+            "Authorization": getCookie("token")
+        },
+        data: {
+            "friendId": friendId,
+            "countMessages": 0
+        }
+    }).then((result)=>{ 
+            
+        for(var i =0; i < result.message.length; i++){
+            var date = new Date(result.message[i].date);
+            var cardMessage = $("<div class='cardMessage'></div>");
+            var div = $("<div class='flex-center'></div>");
+            var time = $("<span>"+date.getHours()+":"+date.getMinutes()+"</span>");
+            var name = $("<p class='name'>"+result.message[i].from.name+"</p>");
+            var message = $("<p>"+result.message[i].msg+"</p>");
+            div.append(time);
+            div.append(name);
+            cardMessage.append(div);
+            cardMessage.append(message);
+            $("#messages").append(cardMessage); 
+        }
+        $("#messages").scrollTop($("#messages").prop("scrollHeight"));
+        messagesLoaded = 50;
+    }).catch((err)=>{
+        console.log("erro: "+err.responseJSON);
+    });
+
+
+    //Socket.io
+    socket.emit('add user', getCookie("token"));
+
+    $('#send-message').on('submit', function(e) {
+        e.preventDefault();
+        socket.emit('private message', friendId, $('#text').val());
+        $('#text').val('')
+    });
+    socket.on('private message', function(msg) {
+        var date = new Date(msg.message.date);
+        var cardMessage = $("<div class='cardMessage'></div>");
+        var div = $("<div class='flex-center'></div>");
+        var time = $("<span>"+date.getHours()+":"+date.getMinutes()+"</span>");
+        var name = $("<p class='name'>"+msg.message.from.name+"</p>");
+        var message = $("<p>"+msg.message.msg+"</p>");
+        div.append(time);
+        div.append(name);
+        cardMessage.append(div);
+        cardMessage.append(message);
+        $("#messages").append(cardMessage);        
+    });
+
+
+
+
+    $('#messages').on('scroll', function(e){
+        if(Math.round($(this).scrollTop()) == (-$(this).prop("scrollHeight")+$(this).prop("clientHeight")) && loadMoreMessages == true){
+            loadMoreMessages = false;
+            $.ajax({
+                method: "POST",
+                url: "http://localhost:8081/message/messages",//REMEMBER CHANGE FOR DEPLOY
+                headers: {
+                    "Authorization": getCookie("token")
+                },
+                data: {
+                    "friendId": friendId,
+                    "countMessages": messagesLoaded
+                }
+            }).then((result)=>{  
+                result.message.sort((a, b)=>{
+                    return a.date-b.date;
+                });    
+                messagesLoaded += result.countMessagesSendByServer;
+                if(result.countMessagesSendByServer == 0){
+                    loadMoreMessages = false;
+                }else{
+                    for(var i =0; i < result.message.length; i++){
+                        var date = new Date(result.message[i].date);
+                        var cardMessage = $("<div class='cardMessage'></div>");
+                        var div = $("<div class='flex-center'></div>");
+                        var time = $("<span>"+date.getHours()+":"+date.getMinutes()+"</span>");
+                        var name = $("<p class='name'>"+result.message[i].from.name+"</p>");
+                        var message = $("<p>"+result.message[i].msg+"</p>");
+                        div.append(time);
+                        div.append(name);
+                        cardMessage.append(div);
+                        cardMessage.append(message);
+                        $("#messages").append(cardMessage); 
+                    }
+                    loadMoreMessages = true;
+                }
+                
+            }).catch((err)=>{
+                console.log("erro: "+err.responseJSON);
+            });
+        }
+    });
+
+
+
+</script>

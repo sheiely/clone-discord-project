@@ -1,0 +1,164 @@
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+    transition: background-color 600000s 0s, color 600000s 0s;
+}
+input[data-autocompleted] {
+    background-color: transparent !important;
+}
+body{
+    background-color: #313338;
+    font-size: 16px;
+    margin: 0;
+    font-family: 'Noto Sans', sans-serif;
+}
+span{
+    color: red;
+    font-size: 12px;
+    margin: 0 5px;
+}
+#wrapLogin{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #5865f2;
+}
+#wrapLogin h1{
+    font-size: 24px;
+    color: #f2f3f5;
+    margin: 0 0 8px 0;
+}
+#wrapLogin h4{
+    font-size: 12px;
+    color: #acb0b7;
+    margin: 0 0 8px 0;
+}
+#wrapLogin p{
+    color: #b5bac1;
+    margin: 0;
+    font-weight:400;
+    font-size: 15px;
+}
+#formLogin{
+    background-color: #313338;
+    padding: 32px;
+    border-radius: 3px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 784px;
+    min-width: 0px;
+    justify-content: space-between;
+}
+#formLoginLeft{
+    width: 414px;
+    min-width: 0px;
+}
+#formLoginRight{
+    width: 240px;
+    min-width: 0px;
+    display: flex;
+    align-items: center;
+    filter: brightness(100);
+}
+#formLoginRight img{
+    width: 150px;
+}
+#formLoginHeader{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.formLoginInput{
+    background-color: #1e1f22;
+    padding: 10px;
+    border: none;
+    border-radius: 3px;
+    color: #b5bac1;
+    font-family: 'Noto Sans', sans-serif;
+    outline: none;
+}
+.formLoginField{
+    display: flex;
+    margin-top: 15px;
+}
+#formLoginContent{
+    margin: 20px 0 0 0;
+    display: flex;
+    flex-direction: column;
+}
+#formLoginButton{
+    margin-top: 20px;
+    padding: 15px 0;
+    background-color: #5865f2;
+    border: none;
+    border-radius: 3px;
+    color: #f2f3f5;
+    font-weight: 500;
+    font-size: 16px;
+    cursor: pointer;
+    height: 50px;
+}
+#formLoginRegister{
+    margin-top: 10px !important;
+    font-size: 14px !important;
+    color: #949ba4 !important;
+}
+#formLoginRegisterLink{
+    margin: 0 0 0 5px;
+    text-decoration: none;
+    color: #00a8fc;
+}
+
+
+#formRegister{
+    background-color: #313338;
+    padding: 32px;
+    border-radius: 3px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 416px;
+    min-width: 0px;
+
+}
+
+#formRegisterHeader{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+#formRegisterContent{
+    margin: 20px 0 0 0;
+    display: flex;
+    flex-direction: column;
+}
+.formRegisterInput{
+    background-color: #1e1f22;
+    padding: 10px;
+    border: none;
+    border-radius: 3px;
+    color: #b5bac1;
+    font-family: 'Noto Sans', sans-serif;
+    outline: none;
+}
+.formRegisterField{
+    display: flex;
+    margin-top: 15px;
+}
+#formRegisterButton{
+    margin-top: 20px;
+    padding: 15px 0;
+    background-color: #5865f2;
+    border: none;
+    border-radius: 3px;
+    color: #f2f3f5;
+    font-weight: 500;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#formLoginButton img{
+    width: 20px;
+}

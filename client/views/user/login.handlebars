@@ -1,0 +1,76 @@
+<div id="wrapLogin">
+    <form id="formLogin">
+        <div id="formLoginLeft">
+            <div id="formLoginHeader">
+                <h1>Boas-vindas de volta!</h1>
+                <p>Estamos muito animados em te ver novamente</p>
+            </div>
+            <div id="formLoginContent">
+                <div class="formLoginField">
+                    <h4>E-MAIL</h4>
+                    <span>*</span>
+                    <span class="error"></span>
+                </div>
+                <input id="userInput" type="email" class="formLoginInput">
+                <div class="formLoginField">
+                    <h4>SENHA</h4>
+                    <span>*</span>
+                    <span class="error"></span>
+                </div>
+                <input id="passwordInput" type="password" class="formLoginInput">
+                <button id="formLoginButton">Entrar</button>
+                <p id="formLoginRegister">Precisando de uma conta?<a id="formLoginRegisterLink" href="/register">Registre-se</a></p>
+            </div>
+        </div>
+        <div id="formLoginRight">
+        <img src="images/logo.webp">
+        </div>
+    </form>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script>
+        function getCookie(name) {
+            let cookie = {};
+            
+            document.cookie.split(';').forEach(function(el) {
+                let [k,v] = el.split('=');
+                cookie[k.trim()] = v;
+            })
+            
+            return cookie[name];
+        
+        }
+        if(getCookie('token')){
+            window.location.replace("/app");/////////REMEMBER CHANGE FOR DEPLOY
+        }
+        var formLogin = $('#formLogin');
+        var userInput = $('#userInput');
+        var passwordInput = $('#passwordInput');
+
+        formLogin.on('submit', function(e) {
+
+                e.preventDefault();
+                $('#formLoginButton').prop('disabled', 'true');
+                $('#formLoginButton').html("<img src='/images/load.gif'>");
+                $('#formLoginButton').css('opacity', '0.5');
+                $.ajax({
+                    method: "POST",
+                    url: "http://localhost:8081/user/login",/////////REMEMBER CHANGE FOR DEPLOY
+                    data: {
+                        email : userInput.val(),
+                        password : passwordInput.val()
+                    }
+                }).then((result)=>{
+                    document.cookie = 'token='+result.token+';';
+                    window.location.replace("/app");/////////REMEMBER CHANGE FOR DEPLOY
+                }).catch((err)=>{
+                    $('#formLoginButton').removeAttr('disabled');
+                    $('#formLoginButton').html("Entrar");
+                    $('#formLoginButton').css('opacity', '1');
+                    $('.error').each(function(){
+                        $(this).text(err.responseJSON.message);
+                    });
+                });
+                
+            });
+    </script>
+</div>

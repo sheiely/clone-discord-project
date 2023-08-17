@@ -1,0 +1,70 @@
+<div id="wrapLogin">
+    <form id="formRegister">
+            <div id="formRegisterHeader">
+                <h1>Criar uma conta</h1>
+            </div>
+            <div id="formRegisterContent">
+                
+                <div class="formRegisterField">
+                    <h4>E-MAIL</h4>
+                    <span>*</span>
+                    <span id="error-email" class="error"></span>
+                </div>
+                <input id="email" type="email" class="formRegisterInput">
+                <div class="formRegisterField">
+                    <h4>NOME DE USUÁRIO</h4>
+                    <span>*</span>
+                    <span id="error-name" class="error"></span>
+                </div>
+                <input id="name" type="text" class="formRegisterInput">
+                <div class="formRegisterField">
+                    <h4>SENHA</h4>
+                    <span>*</span>
+                    <span id="error-password" class="error"></span>
+                </div>
+                <input id="password" type="password" class="formRegisterInput">
+                <button id="formRegisterButton">Continuar</button>
+                <p id="formLoginRegister"><a id="formLoginRegisterLink" href="/login">Já tem uma conta?</a></p>
+            </div>
+        </div>
+       
+    </form>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script>
+        var formRegister = $('#formRegister');
+        var email = $('#email');
+        var name = $('#name');
+        var password = $('#password');
+
+        formRegister.on('submit', function(e) {
+
+                e.preventDefault();
+                $.ajax({
+                    method: "POST",
+                    url: "http://localhost:8081/user/register",/////////REMEMBER CHANGE FOR DEPLOY
+                    data: {
+                        name: $('#name').val(),
+                        email : email.val(),
+                        password : password.val()
+                    }
+                }).then((result)=>{
+                    $('.error').each(function(){
+                            $(this).text("");
+                    });
+                    document.cookie = 'token='+result.token+';';
+                    window.location.replace("/app");/////////REMEMBER CHANGE FOR DEPLOY
+                }).catch((err)=>{
+                    $('.error').each(function(){
+                            $(this).text("");
+                        });
+                    err.responseJSON.errors.forEach((c, i, a)=>{
+                        
+                        $('#error-'+c.local).text(c.message);
+                    });
+               
+                });
+                
+            });
+        
+    </script>
+</div>

@@ -1,0 +1,161 @@
+/* ===== Scrollbar CSS ===== */
+  /* Firefox */
+  * {
+    scrollbar-width: none;
+    scrollbar-color: #1a1b1e #2e2d31;
+  }
+
+  /* Chrome, Edge, and Safari */
+  *::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: #2e2d31;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: #1a1b1e;
+    border-radius: 10px;
+    border: 3px none #ffffff;
+  }
+
+
+#img-perfil{
+    width: 25px;
+    border-radius: 50%;
+    margin: 0 10px;
+}
+#navTittleChat{
+    color: #ffffff;
+    padding: 3px 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-weight: 600;
+    font-size: 15px;
+    margin: 0 8px 0 0;
+    
+}
+#content-chat{
+    width: 900px;
+    min-width: 300px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+#messages{
+    flex: 1;
+    min-height: 0;
+    padding: 0 16px;
+    overflow: auto;
+    display: flex;
+    flex-direction: column-reverse;
+}
+#send-message{
+    height: 68px;
+    padding: 0 16px;
+}
+#input{
+    height: 44px;
+    padding: 0 16px;
+    display: flex;
+    border-radius: 5px;
+    background-color: #383a40;
+    align-items: center;
+}
+#text{
+    flex: 1 0 auto;
+    outline: none;
+    border: none;
+    background-color: transparent;
+    color: #d1d4d8;
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+}
+#send-button{
+    width: 35px;
+    height: 35px;
+    background-color: #313338;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+#send-button .icon{
+    margin: 0 !important;
+    filter: invert(0.5);
+}
+.cardMessage{
+    display: flex;
+    align-items: flex-start;
+    margin: 5px 0;
+}
+.cardMessage p{
+    margin: 0;
+    color: #d1d4d8;
+}
+.cardMessage span{
+    color: #9299a2;
+    font-size: 10px;
+}
+.name{
+    color: #ecedef !important;
+    margin: 0 15px 0 0 !important;
+}
+.flex-center{
+    display: flex;
+    align-items: center;
+}
+#information-perfil{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+#information-background{
+    height: 120px;
+    background-color: #7e8392;
+}
+#information-photo{
+    height: 80px;
+    width: 80px;
+    background-color: aquamarine;
+    position: absolute;
+    top: 65px;
+    left: 13px;
+    border-radius: 50%;
+    border: solid 7px #232428;
+    overflow: hidden;
+}
+#information-photo img{
+    max-width: 100%;
+}
+#information-chat{
+    background-color: #232428;
+    width: 340px;
+    display: flex;
+    flex-direction: column;
+}
+#infos{
+    background-color: #111214;
+    border-radius: 7px;
+    padding: 10px;
+    margin: 55px 16px 0 16px;
+    width: 284px;
+    color: #f2f3f5;
+}
+#infos h3, #infos h5{
+    font-weight: 500;
+    margin: 5px 0;
+}
+#infos p{
+    margin: 0 0 10px 0;
+    font-size: 13px;
+    color: #dbdee1;
+    font-weight: 400;
+}
