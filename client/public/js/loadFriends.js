@@ -23,7 +23,7 @@ function loadAllFriends(){
     $('#content-all-items').text("");
     $.ajax({
         method: "POST",
-        url: "http://localhost:8081/friendship/friends",/////////REMEMBER CHANGE FOR DEPLOY
+        url: "http://23.20.170.178:8081/friendship/friends",/////////REMEMBER CHANGE FOR DEPLOY
         headers: {
             "Authorization": getCookie("token")
         },
@@ -52,7 +52,7 @@ function loadPedding(){
     $('#content-pedding-items').text("");
     $.ajax({
         method: "GET",
-        url: "http://localhost:8081/friendship/invitesReceived",/////////REMEMBER CHANGE FOR DEPLOY
+        url: "http://23.20.170.178:8081/friendship/invitesReceived",/////////REMEMBER CHANGE FOR DEPLOY
         headers: {
             "Authorization": getCookie("token")
         },

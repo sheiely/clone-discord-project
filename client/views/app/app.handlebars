@@ -50,7 +50,7 @@
 <script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
 <script src="/js/loadFriends.js"></script>
 <script>
-    const socket = io("http://localhost:8081", {extraHeaders: {"Authorization": getCookie("token")}});
+    const socket = io("http://23.20.170.178:8081", {extraHeaders: {"Authorization": getCookie("token")}});
     //Socket
     socket.emit('add user', getCookie("token"));
     socket.on('friends connected', function(friends) {
@@ -86,7 +86,7 @@
         e.preventDefault();
         $.ajax({
             method: "POST",
-            url: "http://localhost:8081/friendship/inviteCreate",/////////REMEMBER CHANGE FOR DEPLOY
+            url: "http://23.20.170.178:8081/friendship/inviteCreate",/////////REMEMBER CHANGE FOR DEPLOY
             headers: {
                 "Authorization": getCookie("token")
             },
@@ -138,7 +138,7 @@
     function acceptInvite(id){
         $.ajax({
             method: "POST",
-            url: "http://localhost:8081/friendship/inviteAccept",/////////REMEMBER CHANGE FOR DEPLOY
+            url: "http://23.20.170.178:8081/friendship/inviteAccept",/////////REMEMBER CHANGE FOR DEPLOY
             headers: {
                 "Authorization": getCookie("token")
             },
@@ -156,7 +156,7 @@
     function denyInvite(id){
         $.ajax({
             method: "POST",
-            url: "http://localhost:8081/friendship/inviteDeny",/////////REMEMBER CHANGE FOR DEPLOY
+            url: "http://23.20.170.178:8081/friendship/inviteDeny",/////////REMEMBER CHANGE FOR DEPLOY
             headers: {
                 "Authorization": getCookie("token")
             },

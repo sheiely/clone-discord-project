@@ -52,7 +52,7 @@
 <script>
     var loadMoreMessages = true;
     var messagesLoaded = 0;
-    const url = "http://localhost:8081";
+    const url = "http://23.20.170.178:8081";
     const friendId = "{{idFriend}}";
     const socket = io(url, {extraHeaders: {"Authorization": getCookie("token")}});//REMEMBER CHANGE FOR DEPLOY
     const monthNames = ["jan.", "feb.", "mar.", "Apr.", "may.", "jun.",
@@ -72,7 +72,7 @@
    
     $.ajax({
         method: "POST",
-        url: "http://localhost:8081/user/getbyid",//REMEMBER CHANGE FOR DEPLOY
+        url: "http://23.20.170.178:8081/user/getbyid",//REMEMBER CHANGE FOR DEPLOY
         headers: {
             "Authorization": getCookie("token")
         },
@@ -93,7 +93,7 @@
 
     $.ajax({
         method: "POST",
-        url: "http://localhost:8081/message/messages",//REMEMBER CHANGE FOR DEPLOY
+        url: "http://23.20.170.178:8081/message/messages",//REMEMBER CHANGE FOR DEPLOY
         headers: {
             "Authorization": getCookie("token")
         },
@@ -153,7 +153,7 @@
             loadMoreMessages = false;
             $.ajax({
                 method: "POST",
-                url: "http://localhost:8081/message/messages",//REMEMBER CHANGE FOR DEPLOY
+                url: "http://23.20.170.178:8081/message/messages",//REMEMBER CHANGE FOR DEPLOY
                 headers: {
                     "Authorization": getCookie("token")
                 },
