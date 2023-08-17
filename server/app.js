@@ -30,7 +30,7 @@ const pass = "CkkCMgKGYHu7bBPA";
         app.use(bodyParser.urlencoded({extended:true}));
         app.use(bodyParser.json());
     //Mongoose
-    
+        console.log('Trying connect with mongoAtlas');
         mongoose.connect('mongodb+srv://user:CkkCMgKGYHu7bBPA@cluster0.aokjon4.mongodb.net/?retryWrites=true&w=majority').then(() => {///REMEMBER CHANGE FOR DEPLOY
             console.log('Connected with MongoDB');
         }).catch((err) => {
