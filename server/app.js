@@ -24,13 +24,14 @@ const CryptoJS = require("crypto-js");
 const cryptoKey = "k5MSgmVaEI";
 require("./models/Friendship");
 const Friendship = mongoose.model('friendships');
-
+const pass = "CkkCMgKGYHu7bBPA";
 //configs
     //BodyParser
         app.use(bodyParser.urlencoded({extended:true}));
         app.use(bodyParser.json());
     //Mongoose
-        mongoose.connect('mongodb://127.0.0.1/zapzapproject').then(() => {///REMEMBER CHANGE FOR DEPLOY
+    
+        mongoose.connect('mongodb+srv://user:CkkCMgKGYHu7bBPA@cluster0.aokjon4.mongodb.net/?retryWrites=true&w=majority').then(() => {///REMEMBER CHANGE FOR DEPLOY
             console.log('Connected with MongoDB');
         }).catch((err) => {
             console.log('An erro occurred when tryng to connect with MongoDB: '+err);
