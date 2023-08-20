@@ -30,7 +30,8 @@
        
     </form>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-    <script>
+    <script type="module">
+        import server from "/js/files.js";
         var formRegister = $('#formRegister');
         var email = $('#email');
         var name = $('#name');
@@ -41,7 +42,7 @@
                 e.preventDefault();
                 $.ajax({
                     method: "POST",
-                    url: "http://23.20.170.178:8081/user/register",/////////REMEMBER CHANGE FOR DEPLOY
+                    url: server+"/user/register",
                     data: {
                         name: $('#name').val(),
                         email : email.val(),
@@ -52,7 +53,7 @@
                             $(this).text("");
                     });
                     document.cookie = 'token='+result.token+';';
-                    window.location.replace("/app");/////////REMEMBER CHANGE FOR DEPLOY
+                    window.location.replace("/app");
                 }).catch((err)=>{
                     $('.error').each(function(){
                             $(this).text("");

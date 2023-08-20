@@ -10,7 +10,7 @@ const cryptoKey = "k5MSgmVaEI";
 
 
     router.post("/", passport.authenticate('jwt', { session: false }), (req, res)=>{
-        Message.find({$or: [{_id: req.body.idMessage, from: req.user._id}, {_id: req.body.idMessage, to: req.user._id}]}).populate('from').populate('to').sort({date: 'asc'}).lean().then((message)=>{
+        Message.find({$or: [{_id: req.body.idMessage, from: req.user._id}, {_id: req.body.idMessage, to: req.user._id}]}).populate('from', '-password').populate('to', '-password').sort({date: 'asc'}).lean().then((message)=>{
             if(message.length == 0){
                 return res.status(400).send({
                     sucess: false,
@@ -40,31 +40,22 @@ const cryptoKey = "k5MSgmVaEI";
 
     router.post("/messages", passport.authenticate('jwt', { session: false }), (req, res)=>{
         
-        Message.find({$or: [{from: req.user._id, to: req.body.friendId}, {from: req.body.friendId, to: req.user._id}]}).populate('from').populate('to').sort({date: 'desc'}).skip(req.body.countMessages).limit(30).lean().then((message)=>{
-            Message.find({from: req.body.friendId, to: req.user._id, status:'unread'}).lean().then((messagesUnread)=>{
-
-                
+        Message.find({$or: [{from: req.user._id, to: req.body.friendId}, {from: req.body.friendId, to: req.user._id}]}).populate('from', '-password').populate('to', '-password').sort({date: 'desc'}).skip(req.body.countMessages).limit(30).lean().then((message)=>{ 
                 for(var i =0; i < message.length; i++){
                     var bytes  = CryptoJS.AES.decrypt(message[i].msg, cryptoKey);
                     var decrypt = bytes.toString(CryptoJS.enc.Utf8);
                     message[i].msg = decrypt;
                 }
-                
-
-                return res.status(200).send({
-                    sucess: true,
-                    message: message,
-                    countMessagesSendByServer: message.length,
-                    notifics: messagesUnread.length,
-                    friendId: req.body.friendId
+                Message.updateMany({from: req.body.friendId, to: req.user._id, status:'unread'}, {status: 'read'}).then(()=>{
+                    return res.status(200).send({
+                        sucess: true,
+                        message: message,
+                        countMessagesSendByServer: message.length,
+                        friendId: req.body.friendId
+                    });
+                }).catch((err)=>{
+                    console.log(err);
                 });
-            }).catch((err)=>{
-                return res.status(400).send({
-                    sucess: false,
-                    message: "Something went wrong",
-                    error: err
-                });
-            });
         }).catch((err)=>{
             return res.status(400).send({
                 sucess: false,
@@ -75,7 +66,7 @@ const cryptoKey = "k5MSgmVaEI";
         
     });
     router.post("/messagesUnread", passport.authenticate('jwt', { session: false }), (req, res)=>{
-        Message.find({from: req.body.friendId, to: req.user._id, status:'unread'}).populate('from').populate('to').sort({date: 'asc'}).lean().then((message)=>{
+        Message.find({from: req.body.friendId, to: req.user._id, status:'unread'}).populate('from', '-password').populate('to', '-password').sort({date: 'asc'}).lean().then((message)=>{
             
             return res.status(200).send({
                 sucess: true,
@@ -90,5 +81,6 @@ const cryptoKey = "k5MSgmVaEI";
         })
         
     });
+    
 
 module.exports = router;

@@ -27,7 +27,9 @@
         </div>
     </form>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="/js/files.js"></script>
     <script>
+        
         function getCookie(name) {
             let cookie = {};
             
@@ -40,7 +42,7 @@
         
         }
         if(getCookie('token')){
-            window.location.replace("/app");/////////REMEMBER CHANGE FOR DEPLOY
+            window.location.replace("/app");
         }
         var formLogin = $('#formLogin');
         var userInput = $('#userInput');
@@ -54,14 +56,14 @@
                 $('#formLoginButton').css('opacity', '0.5');
                 $.ajax({
                     method: "POST",
-                    url: "http://23.20.170.178:8081/user/login",/////////REMEMBER CHANGE FOR DEPLOY
+                    url: server+"/user/login",
                     data: {
                         email : userInput.val(),
                         password : passwordInput.val()
                     }
                 }).then((result)=>{
                     document.cookie = 'token='+result.token+';';
-                    window.location.replace("/app");/////////REMEMBER CHANGE FOR DEPLOY
+                    window.location.replace("/app");
                 }).catch((err)=>{
                     $('#formLoginButton').removeAttr('disabled');
                     $('#formLoginButton').html("Entrar");

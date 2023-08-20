@@ -19,6 +19,7 @@ const FriendShip = Schema({
         type: String,
         default: "waiting"
     }
+    
 });
 
 mongoose.model('friendships', FriendShip);

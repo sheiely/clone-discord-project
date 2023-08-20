@@ -140,6 +140,7 @@
     width: 340px;
     display: flex;
     flex-direction: column;
+    
 }
 #infos{
     background-color: #111214;
@@ -158,4 +159,16 @@
     font-size: 13px;
     color: #dbdee1;
     font-weight: 400;
+}
+.hr-date{
+    display: flex;
+    align-items: center;
+    color: #b5bac1;
+    font-size: 12px;
+}
+.hr-date hr{
+    flex:1;
+    margin: 0 5px!important;
+    border: none !important;
+    border-top: 1px solid #424449!important;
 }

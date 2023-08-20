@@ -49,30 +49,21 @@
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
+<script src="/js/files.js"></script>
 <script>
+
     var loadMoreMessages = true;
     var messagesLoaded = 0;
-    const url = "http://23.20.170.178:8081";
+    const url = server;
     const friendId = "{{idFriend}}";
-    const socket = io(url, {extraHeaders: {"Authorization": getCookie("token")}});//REMEMBER CHANGE FOR DEPLOY
+    const socket = io(url, {extraHeaders: {"Authorization": getCookie("token")}});
     const monthNames = ["jan.", "feb.", "mar.", "Apr.", "may.", "jun.",
     "jul.", "aug.", "sep.", "oct.", "nov.", "dec."
     ];
-    function getCookie(name) {
-            let cookie = {};
-            
-            document.cookie.split(';').forEach(function(el) {
-                let [k,v] = el.split('=');
-                cookie[k.trim()] = v;
-            })
-            
-            return cookie[name];
-        
-        }
    
     $.ajax({
         method: "POST",
-        url: "http://23.20.170.178:8081/user/getbyid",//REMEMBER CHANGE FOR DEPLOY
+        url: server+"/user/getbyid",
         headers: {
             "Authorization": getCookie("token")
         },
@@ -81,7 +72,7 @@
         }
     }).then((result)=>{ 
         var date = new Date(result.user.registrationDate);
-        var day = date.getDay();
+        var day = date.getDate();
         var month =date.getMonth();
         var year = date.getYear();
         $("#navTittleChat").append(result.user.name);
@@ -93,7 +84,7 @@
 
     $.ajax({
         method: "POST",
-        url: "http://23.20.170.178:8081/message/messages",//REMEMBER CHANGE FOR DEPLOY
+        url: server+"/message/messages",
         headers: {
             "Authorization": getCookie("token")
         },
@@ -102,9 +93,9 @@
             "countMessages": 0
         }
     }).then((result)=>{ 
-            
         for(var i =0; i < result.message.length; i++){
             var date = new Date(result.message[i].date);
+
             var cardMessage = $("<div class='cardMessage'></div>");
             var div = $("<div class='flex-center'></div>");
             var time = $("<span>"+date.getHours()+":"+date.getMinutes()+"</span>");
@@ -115,6 +106,17 @@
             cardMessage.append(div);
             cardMessage.append(message);
             $("#messages").append(cardMessage); 
+
+            if(i < result.message.length-1){
+                var date2 = new Date(result.message[i+1].date);
+                if(date.getYear() != date2.getYear() || date.getMonth() != date2.getMonth()|| date.getDate() != date2.getDate()){
+                    $("#messages").append("<div class='hr-date'><hr><p>"+date.getDate()+" of "+monthNames[date.getMonth()]+" of "+(date.getYear()+1900)+"</p><hr></div>");
+                }
+            }else{
+                $("#messages").append("<div class='hr-date'><hr><p>"+date.getDate()+" of "+monthNames[date.getMonth()]+" of "+(date.getYear()+1900)+"</p><hr></div>");
+            }
+            
+            
         }
         $("#messages").scrollTop($("#messages").prop("scrollHeight"));
         messagesLoaded = 50;
@@ -142,7 +144,12 @@
         div.append(name);
         cardMessage.append(div);
         cardMessage.append(message);
-        $("#messages").prepend(cardMessage);        
+        $("#messages").prepend(cardMessage);     
+       
+        if(msg.message.from._id.toString() == friendId){
+            socket.emit('message visualize', friendId);  
+        } 
+        
     });
 
 
@@ -153,7 +160,7 @@
             loadMoreMessages = false;
             $.ajax({
                 method: "POST",
-                url: "http://23.20.170.178:8081/message/messages",//REMEMBER CHANGE FOR DEPLOY
+                url: server+"/message/messages",
                 headers: {
                     "Authorization": getCookie("token")
                 },

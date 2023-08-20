@@ -48,12 +48,18 @@
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
+<script src="/js/files.js"></script>
 <script src="/js/loadFriends.js"></script>
 <script>
-    const socket = io("http://23.20.170.178:8081", {extraHeaders: {"Authorization": getCookie("token")}});
+    const socket = io(server, {extraHeaders: {"Authorization": getCookie("token")}});
+    loadAllFriends().then(()=>{
+            socket.emit('online friends');
+    });
+    loadPedding();
     //Socket
     socket.emit('add user', getCookie("token"));
-    socket.on('friends connected', function(friends) {
+    
+    socket.on('online friends', function(friends) {
         for(var i =0; i<friends.length; i++){
             $('#userStatus-'+friends[i].id).text("Online");
             $('#status-'+friends[i].id).addClass("online");
@@ -67,7 +73,29 @@
         $('#userStatus-'+friend).text("Offline");
         $('#status-'+friend).removeClass("online");
     });
+    socket.on('invitation made', function(invite) {
+       loadPedding();
+    });
+    socket.on('invitation accept', function(invite) {
+        loadAllFriends().then(()=>{
+            socket.emit('online friends');
+        });
+       
+    });
+    socket.on('invitation made', function(invite) {
+       loadPedding();
+    });
+    socket.on('notification', (id)=>{
+        if(!$('#status-'+id).hasClass('notified')){
+            $('#status-'+id).addClass('notified')
+        }
+        var notifics = 0;
+        if($('#status-'+id).text() != ""){
+            notifics = $('#status-'+id).text();    
+        }
+        $('#status-'+id).text(parseInt(notifics)+1);
 
+    })
 
 
     function getCookie(name) {
@@ -86,7 +114,7 @@
         e.preventDefault();
         $.ajax({
             method: "POST",
-            url: "http://23.20.170.178:8081/friendship/inviteCreate",/////////REMEMBER CHANGE FOR DEPLOY
+            url: server+"/friendship/inviteCreate",
             headers: {
                 "Authorization": getCookie("token")
             },
@@ -94,8 +122,14 @@
                 nameGuest: $('#inputtext-addfriend').val()
             }
         }).then((result)=>{
+            $('#inputtext-addfriend').val('');
             alert(result.message);
+            if(result.success == true){
+                socket.emit('invitation made', result.id);
+            }
+            
         }).catch((err)=>{
+            $('#inputtext-addfriend').val('');
             alert(err.responseJSON.message);
         });
     });
@@ -138,7 +172,7 @@
     function acceptInvite(id){
         $.ajax({
             method: "POST",
-            url: "http://23.20.170.178:8081/friendship/inviteAccept",/////////REMEMBER CHANGE FOR DEPLOY
+            url: server+"/friendship/inviteAccept",
             headers: {
                 "Authorization": getCookie("token")
             },
@@ -146,8 +180,11 @@
                 idFriendship: id
             }
         }).then((result)=>{
-            loadAllFriends();
             loadPedding();
+            socket.emit('invitation accept', id);
+            loadAllFriends().then(()=>{
+                socket.emit('online friends');
+            });
             alert(result.message);
         }).catch((err)=>{
             alert(err.responseJSON.message);
@@ -156,7 +193,7 @@
     function denyInvite(id){
         $.ajax({
             method: "POST",
-            url: "http://23.20.170.178:8081/friendship/inviteDeny",/////////REMEMBER CHANGE FOR DEPLOY
+            url: server+"/friendship/inviteDeny",
             headers: {
                 "Authorization": getCookie("token")
             },

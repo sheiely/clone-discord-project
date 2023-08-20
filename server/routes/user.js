@@ -37,7 +37,8 @@ const jwt = require('jsonwebtoken');
                 const newUser = new User({
                     name: req.body.name,
                     email: req.body.email,
-                    password: req.body.password
+                    password: req.body.password,
+                    registrationDate: Date.now()
                 });
         
                 bcrypt.genSalt(10, (err, salt)=>{
