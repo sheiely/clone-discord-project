@@ -1,4 +1,5 @@
-const server = "http://localhost:8081";
+const server = "http://"+window.location.hostname+":8081";
+
 
 function errors(err){
     if(err.status==401){
