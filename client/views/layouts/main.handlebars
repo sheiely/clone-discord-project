@@ -13,7 +13,74 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@200;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div id="config">
+            <div id="config-options">
+                
+                <div class="config-tittle-option">
+                    USER SETTINGS
+                </div>
+                <div class="config-option">
+                    <p>My Account</p>
+                </div>
+                <div id="config-logout" class="config-option">
+                    <p>Log Out</p><img class="icon" src="/images/icons/logout.png">
+                </div>
+            </div>
+            <div id="config-window">
+                janela
+            </div>
+    </div>
+    <div id="app">
+        <div id="channels" class="fillHeight"></div>
+        <div id="contacts" class="fillHeight">
+            <div id="contactsSearch"></div>
+            <hr>
+            <a href="/app"><div id='btnFriends' class="contactsButton"><img class="icon" src="/images/icons/friends.png" alt="">Friends</div></a>
+            <div id="direct-card">
+                <span>DIRECT MESSAGES</span>
+                <div id="direct-messages">
+
+                </div>
+            </div>
+            <div id="user-options">
+                <div id="user-options-perfil">
+                    <div id="user-option-img">
+                        <img src='/images/user.jpg'>
+                    </div>
+                    <p id="user-option-name"></p>
+                </div>
+                
+                <div id="user-option-config">
+                    <img src='/images/icons/config.png'>
+                </div>
+            </div>
+        </div>
         {{{body}}}
     </div>
 </body>
+<script>
+    $('#user-option-config').on('click', ()=>{
+        $('#app').css("display", "none");
+        $('#config').css("display", "flex");
+    });
+    $('#config-logout').on('click',()=>{
+        if(confirm("Tem certeza que deseja sair?") == true){	
+            deletecookie();
+            window.location.replace("/login");
+        }
+    });
+    function deletecookie() {
+        var cookies = document.cookie.split(";");
+
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i];
+            var eqPos = cookie.indexOf("=");
+            var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+            if(name == "token"){
+                document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+            }
+            
+        }
+    }
+</script>
 </html>

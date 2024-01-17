@@ -15,6 +15,7 @@ const Message = mongoose.model('messages');
 const passport = require('passport');
 require("./config/passport");
 const message = require('./routes/message');
+const direct = require('./routes/direct');
 const friendship = require('./routes/friendship');
 const user = require('./routes/user');
 const PORT = process.env.PORT || 8081;
@@ -24,15 +25,18 @@ const CryptoJS = require("crypto-js");
 const cryptoKey = "k5MSgmVaEI";
 require("./models/Friendship");
 const Friendship = mongoose.model('friendships');
+require("./models/Direct");
+const Direct = mongoose.model('directs');
 const pass = "CkkCMgKGYHu7bBPA";
 const mongoToDeploy = 'mongodb+srv://user:CkkCMgKGYHu7bBPA@cluster0.aokjon4.mongodb.net/?retryWrites=true&w=majority';
+
 //configs
     //BodyParser
         app.use(bodyParser.urlencoded({extended:true}));
         app.use(bodyParser.json());
     //Mongoose
         console.log('Trying connect with mongoAtlas');
-        mongoose.connect("mongodb+srv://user:CkkCMgKGYHu7bBPA@cluster0.aokjon4.mongodb.net/?retryWrites=true&w=majority").then(() => {///REMEMBER CHANGE FOR DEPLOY
+        mongoose.connect(mongoToDeploy).then(() => {///REMEMBER CHANGE FOR DEPLOY
             console.log('Connected with MongoDB');
         }).catch((err) => {
             console.log('An erro occurred when tryng to connect with MongoDB: '+err);
@@ -44,7 +48,7 @@ const mongoToDeploy = 'mongodb+srv://user:CkkCMgKGYHu7bBPA@cluster0.aokjon4.mong
             origin: "*"//CHANGE TO DEPLOY
         }));
 //routers
-
+    app.use('/direct', direct);
     app.use('/message', message);
     app.use('/friendship', friendship);
     app.use('/user', user);
@@ -55,9 +59,11 @@ const mongoToDeploy = 'mongodb+srv://user:CkkCMgKGYHu7bBPA@cluster0.aokjon4.mong
 //variables for socket
     var usersConnected = [];
 //Socket
-    const wrapMiddlewareForSocketIo = middleware => (socket, next) => middleware(socket.request, {}, next);
+
+    const wrapMiddlewareForSocketIo = middleware => (socket, next) => middleware(socket.request, socket.request.res, next);
     io.use(wrapMiddlewareForSocketIo(passport.initialize()));
     io.use(wrapMiddlewareForSocketIo(passport.authenticate('jwt', {session: false})));
+
     io.on("connection", async (socket) => {
         socket.on('add user', (token)=>{    
             const user = functionsJwt.parse(token);
@@ -163,6 +169,15 @@ const mongoToDeploy = 'mongodb+srv://user:CkkCMgKGYHu7bBPA@cluster0.aokjon4.mong
                 io.to(socket.sessionID).emit('online friends', friendsConnected);
             }).catch();
         });
+        socket.on('add direct', (idFriend)=>{
+            const newDirect = {
+                user: socket.sessionID,
+                friend: idFriend
+            };
+            new Direct(newDirect).save().then().catch((err)=>{
+                console.log(err);
+            });
+        });
         
         //app notifics
         socket.on('invitation made', (idInvite)=>{
@@ -188,7 +203,7 @@ const mongoToDeploy = 'mongodb+srv://user:CkkCMgKGYHu7bBPA@cluster0.aokjon4.mong
                     console.log(err);
             });
         });
-        
+      
     });
 
 

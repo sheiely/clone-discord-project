@@ -1,17 +1,5 @@
-<div id="app">
-    <div id="channels" class="fillHeight"></div>
-    <div id="contacts" class="fillHeight">
-        <div id="contactsSearch"></div>
-        <hr>
-        <div class="contactsButtonselect"><img class="icon" src="/images/icons/friends.png" alt="">Friends</div>
-        <span>DIRECT MESSAGES</span>
-        <div id="direct-messages">
-            <div class="card-direct">
-                <img src='/images/user.jpg'>
-                <p>Nome</p>
-            </div>
-        </div>
-    </div>
+
+    
     <div id="cardChat" class="fillHeight">
         <div id="nav">
             <div id="navTittle"><img class="icon" src="/images/icons/friends.png" alt="">Friends</div>
@@ -45,20 +33,18 @@
             </div>
         </div>
     </div>
-</div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
 <script src="/js/files.js"></script>
-<script src="/js/loadFriends.js"></script>
+<script src="/js/isLogged.js"></script>
 <script>
+    $('#btnFriends').removeClass('contactsButton').addClass('contactsButtonselect');
     const socket = io(server, {extraHeaders: {"Authorization": getCookie("token")}});
-    loadAllFriends().then(()=>{
-            socket.emit('online friends');
-    });
-    loadPedding();
     //Socket
     socket.emit('add user', getCookie("token"));
-    
+    loadAllFriends();
+    loadPedding();
+    loadDirects();
     socket.on('online friends', function(friends) {
         for(var i =0; i<friends.length; i++){
             $('#userStatus-'+friends[i].id).text("Online");
@@ -82,9 +68,7 @@
         });
        
     });
-    socket.on('invitation made', function(invite) {
-       loadPedding();
-    });
+   
     socket.on('notification', (id)=>{
         if(!$('#status-'+id).hasClass('notified')){
             $('#status-'+id).addClass('notified')
@@ -96,19 +80,8 @@
         $('#status-'+id).text(parseInt(notifics)+1);
 
     })
+    
 
-
-    function getCookie(name) {
-            let cookie = {};
-            
-            document.cookie.split(';').forEach(function(el) {
-                let [k,v] = el.split('=');
-                cookie[k.trim()] = v;
-            })
-            
-            return cookie[name];
-        
-        }
     //Add Friend
     $('#input-addfriend').on('submit', (e)=>{
         e.preventDefault();

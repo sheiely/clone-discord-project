@@ -21,10 +21,10 @@ const PORT = process.env.PORT || 3000;
         res.send("nice");
     });
     app.get('/register', (req, res)=>{
-        res.render("user/register");
+        res.render("user/register", {layout: 'mainweb'});
     });
     app.get('/login', (req, res)=>{
-        res.render("user/login");
+        res.render("user/login", {layout: 'mainweb'});
     });
     app.get('/app', (req, res)=>{
         res.render("app/app");

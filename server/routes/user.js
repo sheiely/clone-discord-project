@@ -19,7 +19,19 @@ const jwt = require('jsonwebtoken');
                 success: true,
                 user: user
             });
-        }).catch();
+        }).catch((err)=>{
+            return res.status(400).send({
+                success: false,
+                message: "Something went wrong",
+                error: err
+            });
+        });
+    });
+    router.post("/getmyuser", passport.authenticate('jwt', { session: false }), (req, res)=>{
+        return res.status(200).send({
+            success: true,
+            user: req.user
+        });
     });
     router.post("/register", (req, res)=>{
         

@@ -1,0 +1,20 @@
+{
+  "name": "clone-discord-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node client/app && node server/app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sheiely/clone-discord-project.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sheiely/clone-discord-project/issues"
+  },
+  "homepage": "https://github.com/sheiely/clone-discord-project#readme"
+}

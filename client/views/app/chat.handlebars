@@ -1,17 +1,4 @@
-<div id="app">
-    <div id="channels" class="fillHeight"></div>
-    <div id="contacts" class="fillHeight">
-        <div id="contactsSearch"></div>
-        <hr>
-        <a href="/app"><div class="contactsButton"><img class="icon" src="/images/icons/friends.png" alt="">Friends</div></a>
-        <span>DIRECT MESSAGES</span>
-        <div id="direct-messages">
-            <div class="card-direct">
-                <img src='/images/user.jpg'>
-                <p>Nome</p>
-            </div>
-        </div>
-    </div>
+
     <div id="cardChat" class="fillHeight">
         <div id="nav">
             <div id="navTittleChat"><img id="img-perfil" src="/images/user.jpg" alt=""></div>
@@ -46,21 +33,40 @@
             </div>
         </div>
     </div>
-</div>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
 <script src="/js/files.js"></script>
+<script src="/js/isLogged.js"></script>
 <script>
 
     var loadMoreMessages = true;
     var messagesLoaded = 0;
-    const url = server;
     const friendId = "{{idFriend}}";
-    const socket = io(url, {extraHeaders: {"Authorization": getCookie("token")}});
+    const socket = io(server, {extraHeaders: {"Authorization": getCookie("token")}});
     const monthNames = ["jan.", "feb.", "mar.", "Apr.", "may.", "jun.",
     "jul.", "aug.", "sep.", "oct.", "nov.", "dec."
     ];
-   
+    
+    $.ajax({
+        method: "POST",
+        url: server+"/direct/getdirectfriend",
+        headers: {
+            "Authorization": getCookie("token")
+        },
+        data: {
+            "friendId": friendId
+        }
+    }).then((result)=>{ 
+        if(result.directs.length == 0){
+            socket.emit('add direct', friendId);
+        }
+        loadDirects();
+    }).catch((err)=>{
+        errors(err);
+    });
+
+
     $.ajax({
         method: "POST",
         url: server+"/user/getbyid",
@@ -79,7 +85,7 @@
         $('#infos').append("<h3>"+result.user.name+"</h3><p>"+result.user.name+"</p><hr><h5 id='information-date'>Member since</h5><p>"+day+" of "+monthNames[month]+" of "+(year+1900)+"</p>");
           
     }).catch((err)=>{
-        console.log("erro: "+err.responseJSON);
+        errors(err);
     });
 
     $.ajax({
@@ -121,9 +127,11 @@
         $("#messages").scrollTop($("#messages").prop("scrollHeight"));
         messagesLoaded = 50;
     }).catch((err)=>{
-        console.log("erro: "+err.responseJSON);
+       errors(err);
     });
 
+    
+    
 
     //Socket.io
     socket.emit('add user', getCookie("token"));
@@ -134,22 +142,25 @@
         $('#text').val('')
     });
     socket.on('private message', function(msg) {
-        var date = new Date(msg.message.date);
-        var cardMessage = $("<div class='cardMessage'></div>");
-        var div = $("<div class='flex-center'></div>");
-        var time = $("<span>"+date.getHours()+":"+date.getMinutes()+"</span>");
-        var name = $("<p class='name'>"+msg.message.from.name+"</p>");
-        var message = $("<p>"+msg.message.msg+"</p>");
-        div.append(time);
-        div.append(name);
-        cardMessage.append(div);
-        cardMessage.append(message);
-        $("#messages").prepend(cardMessage);     
-       
-        if(msg.message.from._id.toString() == friendId){
-            socket.emit('message visualize', friendId);  
-        } 
+        if(friendId == msg.message.from._id || myUser._id == msg.message.from._id){
+            var date = new Date(msg.message.date);
+            var cardMessage = $("<div class='cardMessage'></div>");
+            var div = $("<div class='flex-center'></div>");
+            var time = $("<span>"+date.getHours()+":"+date.getMinutes()+"</span>");
+            var name = $("<p class='name'>"+msg.message.from.name+"</p>");
+            var message = $("<p>"+msg.message.msg+"</p>");
+            div.append(time);
+            div.append(name);
+            cardMessage.append(div);
+            cardMessage.append(message);
+            $("#messages").prepend(cardMessage);     
         
+            if(msg.message.from._id.toString() == friendId){
+                socket.emit('message visualize', friendId);  
+            } 
+        }else{
+            console.log("mensagem de outra pessoa em");
+        }
     });
 
 
@@ -193,11 +204,13 @@
                 }
                 
             }).catch((err)=>{
-                console.log("erro: "+err.responseJSON);
+                errors(err);
             });
         }
     });
 
-
+    $('.card-direct').on("mouseenter", '.top-level', (event)=>{
+        $(this).css('background-color', 'red');
+    });
 
 </script>

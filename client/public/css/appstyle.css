@@ -278,9 +278,12 @@
     display: flex;
     padding: 5px;
     margin: 2px 10px;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
 }
 .card-direct:hover{
-    background-color: #35373c;
+    background-color: #313338;
 }
 .card-direct p{
     margin: 0;
@@ -338,4 +341,66 @@ a{
     border: solid 3px rgb(116, 116, 116);
     background-color: #35373c;
     padding: 0 2px;
+}
+.direct-perfil{
+    display: flex;
+    align-items: center;
+}
+.direct-delete{
+    filter: invert(1);
+    width: 15px !important;
+    opacity: 0;
+}
+#config{
+    width: 100%;
+    height: 100vh;
+    display: none;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#config-options{
+    width: 30%;
+    background-color: #2b2d31;
+    display: flex;
+    color: #b5bac1;
+    font-family: 'Noto Sans', sans-serif;
+    flex-direction: column;
+    align-items: flex-end;
+}
+#config-options .icon{
+    width: 20px;
+    height: 20px;
+    filter: invert(1);
+
+}
+#config-window{
+    width: 70%;
+
+}
+.config-option{
+    width: 150px;
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 10px;
+    margin: 10px 10px;
+    border-radius: 5px;
+}
+.config-option:hover{
+    background-color: #35373c;
+    color: #FFFFFF
+}
+.config-option p{
+    margin: 0;
+}
+.config-tittle-option{
+    width: 150px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #949ba4;
+    font-family: 'Noto Sans', sans-serif;
+    font-weight: bold;
+    padding: 0 10px;
+    margin: 5px 10px;
 }

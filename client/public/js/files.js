@@ -1,4 +1,13 @@
-const server = "http://54.92.176.48:8081";
+const server = "http://localhost:8081";
+
+function errors(err){
+    if(err.status==401){
+        console.log("Inautorizado!");
+        document.cookie = "token"+'=; Max-Age=-99999999;'; 
+        window.location.replace("/error"); 
+    }
+}
+
 function getCookie(name) {
     let cookie = {};
     

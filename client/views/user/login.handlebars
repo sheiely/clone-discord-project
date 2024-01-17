@@ -28,28 +28,14 @@
     </form>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="/js/files.js"></script>
+    <script src="/js/noLogged.js"></script>
     <script>
         
-        function getCookie(name) {
-            let cookie = {};
-            
-            document.cookie.split(';').forEach(function(el) {
-                let [k,v] = el.split('=');
-                cookie[k.trim()] = v;
-            })
-            
-            return cookie[name];
-        
-        }
-        if(getCookie('token')){
-            window.location.replace("/app");
-        }
         var formLogin = $('#formLogin');
         var userInput = $('#userInput');
         var passwordInput = $('#passwordInput');
 
         formLogin.on('submit', function(e) {
-                console.log("atualizou em");
                 e.preventDefault();
                 $('#formLoginButton').prop('disabled', 'true');
                 $('#formLoginButton').html("<img src='/images/load.gif'>");
