@@ -6,6 +6,9 @@
 - the project still not ready!
 - text in red
 + And this also
+.diff
+.- delete this line dot, replace ``` in the another 2 dots and write here
+.
 <p>I deployed a version in AWS, can quick access by:</p>
 <p>http://ec2-54-92-176-48.compute-1.amazonaws.com/</p>
 
