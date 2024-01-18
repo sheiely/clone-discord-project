@@ -6,6 +6,7 @@ the project still not ready!
 <h2>How use?</h2>
 <p>I deployed a version in AWS, can quick access by:</p>
 <p>http://ec2-54-92-176-48.compute-1.amazonaws.com/</p>
+![Texto Alternativo](https://github.com/sheiely/clone-discord-project/blob/main/Captura%20de%20tela%202024-01-17%20221914.png)
 
 <h3>What this project used?</h3>
 <p>was used a Node.js backend API, atlas MongoDB, Socket.IO, and some dependencies.</p>
