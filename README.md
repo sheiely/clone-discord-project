@@ -6,7 +6,7 @@
 <h2>How use?</h2>
 <p>I deployed a version in AWS that can quick access by:</p>
 <p>http://ec2-54-92-176-48.compute-1.amazonaws.com/</p>
-<h5>For easely demonstration, you can login:</h5>
+<h5>For easily demonstration, you can login:</h5>
   
 > Email: guest@proj.com
 > 
