@@ -4,7 +4,7 @@
 <hr>
 <span>the project still not ready!<span>
 <h2>How use?</h2>
-<p>I deployed a version in AWS, can quick access by:</p>
+<p>I deployed a version in AWS that can quick access by:</p>
 <p>http://ec2-54-92-176-48.compute-1.amazonaws.com/</p>
 <p>For easely demonstration, you can login:</p>
 <p>Email: invited@proj.com</p>
