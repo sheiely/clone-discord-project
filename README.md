@@ -2,7 +2,7 @@
 <p>Hi, this is my project to clone some discord features in an open souce web site, the motivations behind this project are lister some possibilities of how discord was made(with technologies i domain)</p>
 <p></p>
 <hr>
-```diff
+```html
 -<p style='color:red;'>the project still not ready!</p>
 <h2>How use:</h2>
 ```
