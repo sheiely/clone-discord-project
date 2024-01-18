@@ -7,7 +7,7 @@
 <p>I deployed a version in AWS that can quick access by:</p>
 <p>http://ec2-54-92-176-48.compute-1.amazonaws.com/</p>
 <h5>For easely demonstration, you can login:</h5>
-<p>Email: invited@proj.com</p>
+<p>Email: guest@proj.com</p>
 <p>Password: 123456</p>
 <img src="https://github.com/sheiely/clone-discord-project/blob/main/Captura%20de%20tela%202024-01-17%20221914.png">
 
