@@ -4,8 +4,8 @@
 <hr>
 <p style='color:red;'>the project still not ready!</p>
 <h2>How use:</h2>
-<p>I deployed a version in AWS, can access by:</p>
-<p></p>
+<p>I deployed a version in AWS, can quick access by:</p>
+<p>http://ec2-54-92-176-48.compute-1.amazonaws.com/</p>
 
 <h3>What this project used?</h3>
 <p>was used a Node.js backend API, atlas MongoDB, Socket.IO, and some dependencies.</p>
