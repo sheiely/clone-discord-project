@@ -18,7 +18,7 @@ const PORT = process.env.PORT || 3000;
 
 //Routes
     app.get('/', (req, res)=>{
-        res.send("nice");
+        res.redirect("/login");
     });
     app.get('/register', (req, res)=>{
         res.render("user/register", {layout: 'mainweb'});
