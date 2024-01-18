@@ -1,6 +1,6 @@
 > 'Password:' 123456
 
-<h1>What is it?</h1>
+#What is it?
 <p>Hi, this is my project to clone some discord features in an open souce web site, the motivations behind this project are study and lister some possibilities of how discord was made(with technologies i domain)</p>
 <p></p>
 <hr>
