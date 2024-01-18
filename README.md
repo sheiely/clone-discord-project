@@ -13,6 +13,7 @@
 > Password: 123456
 <img style='width: 400px' src="https://github.com/sheiely/clone-discord-project/blob/main/client/public/images/screenshot2.png">
 <img style='width: 400px' src="https://github.com/sheiely/clone-discord-project/blob/main/client/public/images/screenshot.png">
+<img style='width: 800px' src="https://github.com/sheiely/clone-discord-project/blob/main/client/public/images/screenshot3.png">
 
 <h3>What this project used?</h3>
 <p>was used a Node.js backend API, atlas MongoDB, Socket.IO, and some dependencies.</p>
