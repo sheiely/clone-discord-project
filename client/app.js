@@ -4,7 +4,7 @@ const handlebars = require('express-handlebars');
 const bodypParser = require('body-parser');
 const app = express();
 const path = require('path');
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 80;
 
 //Configs
     //Bodyparser
