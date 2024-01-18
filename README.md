@@ -3,7 +3,7 @@
 <p></p>
 <hr>
 
-$${\color{red}Red}$$the project still not ready!
+$${\color{red}Red}$$ the project still not ready!
 
 
 <p>I deployed a version in AWS, can quick access by:</p>
