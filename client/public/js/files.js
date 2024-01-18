@@ -1,4 +1,4 @@
-const server = "http://"+window.location.hostname+":8081";
+const server = "http://54.92.176.48:8081";
 
 
 function errors(err){
