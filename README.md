@@ -11,7 +11,7 @@
 > Email: guest@proj.com
 > 
 > Password: 123456
-
+<img style='width: 400px' src="https://github.com/sheiely/clone-discord-project/blob/main/client/public/images/screenshot2.png">
 <img style='width: 400px' src="https://github.com/sheiely/clone-discord-project/blob/main/client/public/images/screenshot.png">
 
 <h3>What this project used?</h3>
