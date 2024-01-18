@@ -9,6 +9,7 @@
 <h5>For easely demonstration, you can login:</h5>
   
 > 'Email:' guest@proj.com
+> 
 > 'Password:' 123456
 
 <img src="https://github.com/sheiely/clone-discord-project/blob/main/Captura%20de%20tela%202024-01-17%20221914.png">
