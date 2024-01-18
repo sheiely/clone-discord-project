@@ -2,10 +2,13 @@
 <p>Hi, this is my project to clone some discord features in an open souce web site, the motivations behind this project are study and lister some possibilities of how discord was made(with technologies i domain)</p>
 <p></p>
 <hr>
-the project still not ready!
+<span>the project still not ready!<span>
 <h2>How use?</h2>
 <p>I deployed a version in AWS, can quick access by:</p>
 <p>http://ec2-54-92-176-48.compute-1.amazonaws.com/</p>
+<p>For easely demonstration, you can login:</p>
+<p>Email: invited@proj.com</p>
+<p>Password: 123456</p>
 <img src="https://github.com/sheiely/clone-discord-project/blob/main/Captura%20de%20tela%202024-01-17%20221914.png">
 
 <h3>What this project used?</h3>
