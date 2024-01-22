@@ -2,7 +2,7 @@
 <p>Hi, this is my project to clone some discord features in an open souce web site, the motivations behind this project are study and lister some possibilities of how discord was made(with technologies I domain)</p>
 <p></p>
 <hr>
-<span>the project still not ready!<span>
+<span>the project still not finished!<span>
 <h2>How use?</h2>
 <p>I deployed a version in AWS that can quick access by:</p>
 <p>http://ec2-54-92-176-48.compute-1.amazonaws.com/</p>
